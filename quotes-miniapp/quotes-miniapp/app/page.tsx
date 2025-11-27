@@ -1,10 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import { useMiniKit } from "@coinbase/onchainkit/minikit";
 
 export default function Home() {
   const [quote, setQuote] = useState("");
+  const [mood, setMood] = useState("");
+
+  const { setMiniAppReady, isMiniAppReady } = useMiniKit();
+
+  useEffect(() => {
+    if (!isMiniAppReady) {
+      setMiniAppReady();
+    }
+  }, [setMiniAppReady, isMiniAppReady]);
 
   const quotes: Record<string, string[]> = {
     happy: [
@@ -29,17 +39,25 @@ export default function Home() {
     ]
   };
 
-  function showQuote(mood: string) {
-    const moodQuotes = quotes[mood];
+  function showQuote(selectedMood: string) {
+    const moodQuotes = quotes[selectedMood];
     const randomQuote =
       moodQuotes[Math.floor(Math.random() * moodQuotes.length)];
     setQuote(randomQuote);
+    setMood(selectedMood);
   }
 
+  const backgroundClass =
+    mood === "happy" ? styles.happyBackground :
+    mood === "sad" ? styles.sadBackground :
+    mood === "neutral" ? styles.neutralBackground :
+    mood === "angry" ? styles.angryBackground :
+    styles.defaultBackground;
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${backgroundClass}`}>
       {!quote && (
-        <div id="question-box" className={styles.fadeIn}>
+        <div className={styles.fadeIn}>
           <h1 className={styles.title}>Hôm nay bạn cảm thấy thế nào?</h1>
           <div className={styles.buttons}>
             <button onClick={() => showQuote("happy")}>😊 Vui</button>
@@ -50,11 +68,13 @@ export default function Home() {
         </div>
       )}
       {quote && (
-        <div id="quote-box" className={styles.fadeIn}>
+        <div className={styles.fadeIn}>
           <p className={`${styles.quoteText} ${styles.quoteAnimate}`}>
             {quote}
           </p>
-          <button onClick={() => setQuote("")}>🔁 Chọn lại</button>
+          <button onClick={() => { setQuote(""); setMood(""); }}>
+            🔁 Chọn lại
+          </button>
         </div>
       )}
     </div>

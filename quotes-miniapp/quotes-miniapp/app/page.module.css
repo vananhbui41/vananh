@@ -1,16 +1,39 @@
 .container {
-  text-align: center;
-  padding: 20px;
-  max-width: 90%;
-  margin: 0 auto;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #6595f6 0%, #c3ddec 100%);
   min-height: 100vh;
+  width: 100vw;              /* phủ toàn bộ chiều ngang */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #333;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  overflow-x: hidden;        /* tránh scroll ngang gây viền trắng */
+  transition: background 1s ease; /* chuyển nền mượt */
+}
+
+/* nền mặc định */
+.defaultBackground {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+/* nền theo mood */
+.happyBackground {
+  background: linear-gradient(135deg, #ffe259 0%, #ffa751 100%);
+}
+
+.sadBackground {
+  background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+}
+
+.neutralBackground {
+  background: linear-gradient(135deg, #ece9e6 0%, #ffffff 100%);
+}
+
+.angryBackground {
+  background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
 }
 
 .title {
@@ -41,53 +64,14 @@
   transform: scale(1.05);
 }
 
-.quoteBox {
-  margin-top: 30px;
-}
-
 .quoteText {
   font-size: 1.5em;
   font-style: italic;
   margin-bottom: 20px;
 }
 
-/* Animation classes */
-.hidden {
-  display: none;
-}
-
 .fadeIn {
   animation: fadeIn 1s ease-in-out;
-}
-
-.fadeOut {
-  animation: fadeOut 0.8s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-20px); display: none; }
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
 }
 
 .quoteAnimate {
@@ -95,11 +79,14 @@
   white-space: normal;
 }
 
-.typewriter {
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid #333;
-  animation: typewriter 2s steps(40, end);
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 600px) {
